@@ -1,4 +1,4 @@
-*textobj-numeral.txt*	Text objects for numbers.
+*textobj-numeral.txt*	Text objects for numbers.	    *textobj-numeral*
 
 Version: 0.0.1
 Author : tkhren <m.tkhren@gmail.com>
@@ -24,7 +24,7 @@ License: So-called MIT/X license  {{{
 }}}
 
 ==============================================================================
-CONTENTS					*textobj-numeral-contents*
+CONTENTS					    *textobj-numeral-contents*
 
 INTRODUCTION			|textobj-numeral-introduction|
 INTERFACE			|textobj-numeral-interface|
@@ -36,11 +36,10 @@ CHANGELOG			|textobj-numeral-changelog|
 ==============================================================================
 INTRODUCTION					*textobj-numeral-introduction*
 
-*textobj-numeral* is a Vim plugin to provide text objects to select numbers.
+textobj-numeral is a Vim plugin to provide text objects to select numbers.
 
 Requirements:
-- Vim 7.0 or later
-- |textobj-user| 0.3.10 or later
+- |textobj-user| by kana
   <http://www.vim.org/scripts/script.php?script_id=2100>
 
 Latest version:
@@ -55,7 +54,7 @@ KEY MAPPINGS					*textobj-numeral-key-mappings*
 These key mappings are defined in Visual mode and Operator-pending mode.
 
 <Plug>(textobj-numeral-a)			*<Plug>(textobj-numeral-a)*
-			Select the decimal numbers in various notation.
+			Select the decimal number in various notation.
 			See also |g:textobj_numeral_a_pattern|
 			Example)
 				1024		integer
@@ -123,19 +122,19 @@ define |g:textobj_numeral_no_default_key_mappings| before this plugin is loaded
 to redefine these key mappings.  This command doesn't override existing {lhs}s
 unless [!] is given. See the |textobj-user| documentation for more info.
 
-		{lhs}	{rhs}				~
-		-----	---------------------------	~
-		an	<Plug>(textobj-numeral-a)
-		in	<Plug>(textobj-numeral-i)
-	
-		ad	<Plug>(textobj-numeral-digit-a)
-		id	<Plug>(textobj-numeral-digit-i)
-	
-		af	<Plug>(textobj-numeral-float-a)
-		if	<Plug>(textobj-numeral-float-i)
-	
-		ax	<Plug>(textobj-numeral-hex-a)
-		ix	<Plug>(textobj-numeral-hex-i)
+	{lhs}	{rhs}				~
+	-----	---------------------------	~
+	an	<Plug>(textobj-numeral-a)
+	in	<Plug>(textobj-numeral-i)
+
+	ad	<Plug>(textobj-numeral-digit-a)
+	id	<Plug>(textobj-numeral-digit-i)
+
+	af	<Plug>(textobj-numeral-float-a)
+	if	<Plug>(textobj-numeral-float-i)
+
+	ax	<Plug>(textobj-numeral-hex-a)
+	ix	<Plug>(textobj-numeral-hex-i)
 
 
 The pattern for the each text objects is defined by the following variables.
@@ -174,7 +173,38 @@ g:textobj_numeral_hex_i_pattern		    *g:textobj_numeral_hex_i_pattern*
 					(Default: "\x\+\>")
 
 ==============================================================================
-CHANGELOG					*textobj-numeral-changelog*
+EXAMPLE						    *textobj-numeral-example*
+
+There is a useful application to input continuous numbers vertically.
+Write the following code in your .vimrc
+>
+	set nrformats-=octal
+
+	function! Increment(step)
+	    let inc_key = a:step > 0 ? '' : ''
+	    let @z = '"zyadjvad"zp'. abs(a:step) . inc_key
+	    return '@z'
+	endfunction
+
+	nmap <expr> + Increment(1)
+	nmap <expr> - Increment(-1)
+<
+Move cursor to the top of '00', and push `++++++++++` or `10+`
+>
+	aaa00ccc	->	aaa00ccc
+	aaa00ccc	->	aaa01ccc
+	aaa00ccc	->	aaa02ccc
+	aaa00ccc	->	aaa03ccc
+	aaa00ccc	->	aaa04ccc
+	aaa00ccc	->	aaa05ccc
+	aaa00ccc	->	aaa06ccc
+	aaa00ccc	->	aaa07ccc
+	aaa00ccc	->	aaa08ccc
+	aaa00ccc	->	aaa09ccc
+	aaa00ccc	->	aaa10ccc
+<
+==============================================================================
+CHANGELOG					    *textobj-numeral-changelog*
 
 0.0.1	2014-2-18
 	- Initial version.
