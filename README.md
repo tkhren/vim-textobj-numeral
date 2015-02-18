@@ -24,7 +24,7 @@ Bundle 'tkhren/vim-textobj-numeral'
 
 | Textobj | General RegExp                   | Description                                    |
 |:-------:|:---------------------------------|:-----------------------------------------------|
-| `an`    | [-+]?\d+(\\.\d+)?([Ee][-+]?\d+)? | Select the decimal numbers in various notation |
+| `an`    | [-+]?\d+(\\.\d+)?([Ee][-+]?\d+)? | Select the decimal number in various notation |
 | `in`    | \d+                              | Select the decimal digits (integer)            |
 | `ad`    | [-+]?\d+                         | Select the decimal digits with sign            |
 | `id`    | \d+                              | Select the decimal digits (integer)            |
@@ -38,7 +38,7 @@ Bundle 'tkhren/vim-textobj-numeral'
 
 The pattern for the each text objects is defined by some variables.
 You can modify the regular expressions to suit your specific needs.
-See the help `:help textobj-numeral`
+See `:help textobj-numeral`
 
 #### Example
 
