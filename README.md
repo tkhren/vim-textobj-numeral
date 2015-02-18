@@ -45,6 +45,6 @@ See `:help textobj-numeral`
 Change `id` behavior
 
 ```
-let g:textobj_numeral_digit_i_pattern = '[1-9]\d+'
+let g:textobj_numeral_digit_i_pattern = '[1-9]\d\+'
 ```
 
