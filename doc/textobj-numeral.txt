@@ -1,0 +1,183 @@
+*textobj-numeral.txt*	Text objects for numbers.
+
+Version: 0.0.1
+Author : tkhren <m.tkhren@gmail.com>
+License: So-called MIT/X license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+CONTENTS					*textobj-numeral-contents*
+
+INTRODUCTION			|textobj-numeral-introduction|
+INTERFACE			|textobj-numeral-interface|
+KEY MAPPINGS			|textobj-numeral-key-mappings|
+CUSTOMIZING			|textobj-numeral-customizing|
+CHANGELOG			|textobj-numeral-changelog|
+
+
+==============================================================================
+INTRODUCTION					*textobj-numeral-introduction*
+
+*textobj-numeral* is a Vim plugin to provide text objects to select numbers.
+
+Requirements:
+- Vim 7.0 or later
+- |textobj-user| 0.3.10 or later
+  <http://www.vim.org/scripts/script.php?script_id=2100>
+
+Latest version:
+https://github.com/tkhren/vim-textobj-numeral
+
+==============================================================================
+INTERFACE					*textobj-numeral-interface*
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*textobj-numeral-key-mappings*
+
+These key mappings are defined in Visual mode and Operator-pending mode.
+
+<Plug>(textobj-numeral-a)			*<Plug>(textobj-numeral-a)*
+			Select the decimal numbers in various notation.
+			See also |g:textobj_numeral_a_pattern|
+			Example)
+				1024		integer
+				3.1415		floating number
+				-100		signed number
+				6.02e24		exponential number
+
+<Plug>(textobj-numeral-i)			*<Plug>(textobj-numeral-i)*
+			Select the integer
+			See also |g:textobj_numeral_i_pattern|
+			Example)
+				1024		integer
+
+<Plug>(textobj-numeral-digit-a)			*<Plug>(textobj-numeral-digit-a)*
+			Select the integer with sign.
+			See also |g:textobj_numeral_digit_a_pattern|
+			Example)
+				1024		integer
+				-250		signed integer
+
+<Plug>(textobj-numeral-digit-i)			*<Plug>(textobj-numeral-digit-i)*
+			Select the integer
+			See also |g:textobj_numeral_digit_i_pattern|
+			Example)
+				1024		integer
+
+<Plug>(textobj-numeral-float-a)			*<Plug>(textobj-numeral-float-a)*
+			Select the floating number with sign.
+			See also |g:textobj_numeral_float_a_pattern|
+			Example)
+				1024		integer
+				3.1415		floating number
+				-2.7		signed number
+
+<Plug>(textobj-numeral-float-i)			*<Plug>(textobj-numeral-float-i)*
+			Select the floating number
+			See also |g:textobj_numeral_float_i_pattern|
+			Example)
+				1024		integer
+				3.1415		floating number
+
+<Plug>(textobj-numeral-hex-a)			*<Plug>(textobj-numeral-hex-a)*
+			Select the hexadecimal number with prefix.
+			See also |g:textobj_numeral_hex_a_pattern|
+			Example)
+				f1e2d3		hexadecimal digits
+				0xffff		hexadecimal with prefix
+				#ffffff		ColorCode-like notation
+
+<Plug>(textobj-numeral-hex-i)			*<Plug>(textobj-numeral-hex-i)*
+			Select the hexadecimal number with no prefix
+			See also |g:textobj_numeral_hex_i_pattern|
+			Example)
+				f1e2d3		hexadecimal digits
+
+==============================================================================
+CUSTOMIZING					*textobj-numeral-customizing*
+
+				     *g:textobj_numeral_no_default_key_mappings*
+					     *:TextobjNumeralDefaultKeyMappings*
+This plugin will define the following key mappings in Visual mode and
+Operator-pending mode automatically.  If you don't want these key mappings,
+define |g:textobj_numeral_no_default_key_mappings| before this plugin is loaded
+(e.g. in your |vimrc|).  You can also use |:TextobjNumeralDefaultKeyMappings|
+to redefine these key mappings.  This command doesn't override existing {lhs}s
+unless [!] is given. See the |textobj-user| documentation for more info.
+
+		{lhs}	{rhs}				~
+		-----	---------------------------	~
+		an	<Plug>(textobj-numeral-a)
+		in	<Plug>(textobj-numeral-i)
+	
+		ad	<Plug>(textobj-numeral-digit-a)
+		id	<Plug>(textobj-numeral-digit-i)
+	
+		af	<Plug>(textobj-numeral-float-a)
+		if	<Plug>(textobj-numeral-float-i)
+	
+		ax	<Plug>(textobj-numeral-hex-a)
+		ix	<Plug>(textobj-numeral-hex-i)
+
+
+The pattern for the each text objects is defined by the following variables.
+You can modify the regular expressions to suit your specific needs.
+
+g:textobj_numeral_a_pattern			*g:textobj_numeral_a_pattern*
+
+		(Default: "[-+]\?\d\+\%(\.\d\+\)\?\%([eE][-+]\?\d\+\)\?")
+
+g:textobj_numeral_i_pattern			*g:textobj_numeral_i_pattern*
+
+					(Default: "\d\+")
+
+g:textobj_numeral_digit_a_pattern	    *g:textobj_numeral_digit_a_pattern*
+
+					(Default: "[-+]\?\d\+")
+
+g:textobj_numeral_digit_i_pattern	    *g:textobj_numeral_digit_i_pattern*
+
+					(Default: "\d\+")
+
+g:textobj_numeral_float_a_pattern	    *g:textobj_numeral_float_a_pattern*
+
+					(Default: "[-+]\?\d\+\%(\.\d\+\)\?")
+
+g:textobj_numeral_float_i_pattern	    *g:textobj_numeral_float_i_pattern*
+
+					(Default: "\d\+\%(\.\d\+\)\?")
+
+g:textobj_numeral_hex_a_pattern		    *g:textobj_numeral_hex_a_pattern*
+
+					(Default: "\<\%(0x\|#\)\?\x\+\>")
+
+g:textobj_numeral_hex_i_pattern		    *g:textobj_numeral_hex_i_pattern*
+
+					(Default: "\x\+\>")
+
+==============================================================================
+CHANGELOG					*textobj-numeral-changelog*
+
+0.0.1	2014-2-18
+	- Initial version.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
