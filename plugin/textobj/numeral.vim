@@ -33,6 +33,9 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 
+if !exists('g:textobj_numeral_strict_mode')
+    let g:textobj_numeral_strict_mode = 0
+endif
 if !exists('g:textobj_numeral_a_pattern')
     let g:textobj_numeral_a_pattern = '[-+]\?\d\+\%(\.\d\+\)\?\%([eE][-+]\?\d\+\)\?'
 endif
@@ -61,27 +64,59 @@ endif
 call textobj#user#plugin('numeral', {
 \   '-': {
 \       'select-a': 'an',
-\       'select-a-function': 'textobj#numeral#select_a',
 \       'select-i': 'in',
+\       'select-a-function': 'textobj#numeral#select_a',
 \       'select-i-function': 'textobj#numeral#select_i',
+\       'move-n': 'gnn',
+\       'move-p': 'gpn',
+\       'move-N': 'gNn',
+\       'move-P': 'gPn',
+\       'move-n-function': 'textobj#numeral#move_n',
+\       'move-p-function': 'textobj#numeral#move_p',
+\       'move-N-function': 'textobj#numeral#move_N',
+\       'move-P-function': 'textobj#numeral#move_P',
 \   },
 \   'digit': {
 \       'select-a': 'ad',
-\       'select-a-function': 'textobj#numeral#select_digit_a',
 \       'select-i': 'id',
+\       'select-a-function': 'textobj#numeral#select_digit_a',
 \       'select-i-function': 'textobj#numeral#select_digit_i',
+\       'move-n': 'gnd',
+\       'move-p': 'gpd',
+\       'move-N': 'gNd',
+\       'move-P': 'gPd',
+\       'move-n-function': 'textobj#numeral#move_digit_n',
+\       'move-p-function': 'textobj#numeral#move_digit_p',
+\       'move-N-function': 'textobj#numeral#move_digit_N',
+\       'move-P-function': 'textobj#numeral#move_digit_P',
 \   },
 \   'float': {
 \       'select-a': 'af',
-\       'select-a-function': 'textobj#numeral#select_float_a',
 \       'select-i': 'if',
+\       'select-a-function': 'textobj#numeral#select_float_a',
 \       'select-i-function': 'textobj#numeral#select_float_i',
+\       'move-n': 'gnf',
+\       'move-p': 'gpf',
+\       'move-N': 'gNf',
+\       'move-P': 'gPf',
+\       'move-n-function': 'textobj#numeral#move_float_n',
+\       'move-p-function': 'textobj#numeral#move_float_p',
+\       'move-N-function': 'textobj#numeral#move_float_N',
+\       'move-P-function': 'textobj#numeral#move_float_P',
 \   },
 \   'hex': {
 \       'select-a': 'ax',
-\       'select-a-function': 'textobj#numeral#select_hex_a',
 \       'select-i': 'ix',
+\       'select-a-function': 'textobj#numeral#select_hex_a',
 \       'select-i-function': 'textobj#numeral#select_hex_i',
+\       'move-n': 'gnx',
+\       'move-p': 'gpx',
+\       'move-N': 'gNx',
+\       'move-P': 'gPx',
+\       'move-n-function': 'textobj#numeral#move_hex_n',
+\       'move-p-function': 'textobj#numeral#move_hex_p',
+\       'move-N-function': 'textobj#numeral#move_hex_N',
+\       'move-P-function': 'textobj#numeral#move_hex_P',
 \   },
 \ })
 

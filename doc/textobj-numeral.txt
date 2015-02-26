@@ -30,6 +30,7 @@ INTRODUCTION			|textobj-numeral-introduction|
 INTERFACE			|textobj-numeral-interface|
 KEY MAPPINGS			|textobj-numeral-key-mappings|
 CUSTOMIZING			|textobj-numeral-customizing|
+EXAMPLE				|textobj-numeral-example|
 CHANGELOG			|textobj-numeral-changelog|
 
 
@@ -41,6 +42,7 @@ textobj-numeral is a Vim plugin to provide text objects to select numbers.
 Requirements:
 - |textobj-user| by kana
   <http://www.vim.org/scripts/script.php?script_id=2100>
+  <https://github.com/kana/vim-textobj-user>
 
 Latest version:
 https://github.com/tkhren/vim-textobj-numeral
@@ -110,6 +112,31 @@ These key mappings are defined in Visual mode and Operator-pending mode.
 			Example)
 				f1e2d3		hexadecimal digits
 
+These key mappings are defined in Normal mode.
+
+<Plug>(textobj-numeral-n)			*<Plug>(textobj-numeral-n)*
+<Plug>(textobj-numeral-p)			*<Plug>(textobj-numeral-p)*
+<Plug>(textobj-numeral-N)			*<Plug>(textobj-numeral-N)*
+<Plug>(textobj-numeral-P)			*<Plug>(textobj-numeral-P)*
+<Plug>(textobj-numeral-digit-n)			*<Plug>(textobj-numeral-digit-n)*
+<Plug>(textobj-numeral-digit-p)			*<Plug>(textobj-numeral-digit-p)*
+<Plug>(textobj-numeral-digit-N)			*<Plug>(textobj-numeral-digit-N)*
+<Plug>(textobj-numeral-digit-P)			*<Plug>(textobj-numeral-digit-P)*
+<Plug>(textobj-numeral-float-n)			*<Plug>(textobj-numeral-float-n)*
+<Plug>(textobj-numeral-float-p)			*<Plug>(textobj-numeral-float-p)*
+<Plug>(textobj-numeral-float-N)			*<Plug>(textobj-numeral-float-N)*
+<Plug>(textobj-numeral-float-P)			*<Plug>(textobj-numeral-float-P)*
+<Plug>(textobj-numeral-hex-n)			*<Plug>(textobj-numeral-hex-n)*
+<Plug>(textobj-numeral-hex-p)			*<Plug>(textobj-numeral-hex-p)*
+<Plug>(textobj-numeral-hex-N)			*<Plug>(textobj-numeral-hex-N)*
+<Plug>(textobj-numeral-hex-P)			*<Plug>(textobj-numeral-hex-P)*
+			Move to the nearest text object.
+			For `n` or `N`, search forward. 
+			For `p` or `P`, search backward. 
+
+			For `n` or `p`, use the i_pattern
+			For `N` or `P`, use the a_pattern
+
 ==============================================================================
 CUSTOMIZING					*textobj-numeral-customizing*
 
@@ -135,6 +162,36 @@ unless [!] is given. See the |textobj-user| documentation for more info.
 
 	ax	<Plug>(textobj-numeral-hex-a)
 	ix	<Plug>(textobj-numeral-hex-i)
+
+	gnn	<Plug>(textobj-numeral-n)
+	gpn	<Plug>(textobj-numeral-p)
+	gNn	<Plug>(textobj-numeral-N)
+	gPn	<Plug>(textobj-numeral-P)
+
+	gnd	<Plug>(textobj-numeral-digit-n)
+	gpd	<Plug>(textobj-numeral-digit-p)
+	gNd	<Plug>(textobj-numeral-digit-N)
+	gPd	<Plug>(textobj-numeral-digit-P)
+
+	gnf	<Plug>(textobj-numeral-float-n)
+	gpf	<Plug>(textobj-numeral-float-p)
+	gNf	<Plug>(textobj-numeral-float-N)
+	gPf	<Plug>(textobj-numeral-float-P)
+
+	gnx	<Plug>(textobj-numeral-hex-n)
+	gpx	<Plug>(textobj-numeral-hex-p)
+	gNx	<Plug>(textobj-numeral-hex-N)
+	gPx	<Plug>(textobj-numeral-hex-P)
+
+
+g:textobj_numeral_strict_mode			*g:textobj_numeral_strict_mode*
+
+					(Default: 0)
+		In the strict mode, a text object under the cursor is only
+		accepted. When a text object under the cursor does not exist,
+		you will enter the Visual mode at the current position.
+		If this variable is 0, you will select the nearest
+		text object.
 
 
 The pattern for the each text objects is defined by the following variables.
@@ -175,21 +232,23 @@ g:textobj_numeral_hex_i_pattern		    *g:textobj_numeral_hex_i_pattern*
 ==============================================================================
 EXAMPLE						    *textobj-numeral-example*
 
-There is a useful application to input continuous numbers vertically.
+There is a useful application to input sequential numbers.
 Write the following code in your .vimrc
 >
 	set nrformats-=octal
 
-	function! Increment(step)
-	    let inc_key = a:step > 0 ? '' : ''
-	    let @z = '"zyadjvad"zp'. abs(a:step) . inc_key
+	function! Increment(motion, step)
+	    let inc_key = a:step > 0 ? "\<C-a>" : "\<C-x>"
+	    let @z = '"zyad' . a:motion . 'vad"zp'. abs(a:step) . inc_key
 	    return '@z'
 	endfunction
 
-	nmap <expr> + Increment(1)
-	nmap <expr> - Increment(-1)
+	nmap <expr> + Increment('j', 1)
+	nmap <expr> - Increment('j', -1)
+	nmap <expr> ) Increment('gNd', 1)
+	nmap <expr> ( Increment('gNd', -1)
 <
-Move cursor to the top of '00', and push `++++++++++` or `10+`
+Move cursor to the top of '00', and type `++++++++++` or `10+`
 >
 	aaa00ccc	->	aaa00ccc
 	aaa00ccc	->	aaa01ccc
@@ -203,8 +262,17 @@ Move cursor to the top of '00', and push `++++++++++` or `10+`
 	aaa00ccc	->	aaa09ccc
 	aaa00ccc	->	aaa10ccc
 <
+Move cursor to the first '0', and type `)` or `10)`
+>
+	[0,0,0,0,0,0,0,0,0,0,0]   ->   [0,1,2,3,4,5,6,7,8,9,10]
+<
 ==============================================================================
 CHANGELOG					    *textobj-numeral-changelog*
+
+0.1.0	2014-2-26
+	- Some bugfixes
+	- Add the strict mode
+	- Add the move-x-functions
 
 0.0.1	2014-2-18
 	- Initial version.
