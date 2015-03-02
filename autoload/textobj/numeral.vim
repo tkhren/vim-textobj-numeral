@@ -109,16 +109,19 @@ endfunction
 function! s:move(pattern, direction)
     let flag = get({
     \   'n': 'W',
-    \   'p': 'bW',
+    \   'p': 'beW',
     \ }, a:direction)
+
+    let cur_pos = getpos('.')
 
     let [lnum, cnum] = searchpos(a:pattern, flag)
     if lnum == 0
+        call setpos('.', cur_pos)
         return 0
     endif
-    let start_pos = [0, lnum, cnum, 0]
+    let pos = [0, lnum, cnum, 0]
 
-    return ['v', start_pos, start_pos]
+    return ['v', pos, pos]
 endfunction
 
 function! textobj#numeral#move_n()
@@ -183,6 +186,50 @@ endfunction
 
 function! textobj#numeral#move_hex_P()
     return s:move(g:textobj_numeral_hex_a_pattern, 'p')
+endfunction
+
+"================================================================
+" Other utility
+"================================================================
+
+function! textobj#numeral#imitate_format(model, number)
+    "" Return formatted number which imitates the model's format
+    "" @arg model  [String]: It must be a valid number.
+    ""                       ex) "003", "+3.14", "0xaf5"
+    "" @arg number [Float]
+    "" @return formated number [String]
+    if match(a:model, '^0x\x\+$') > -1
+        return printf('0x%x', a:number)
+    endif
+
+    let m_sign = matchstr(a:model, '^[-+]')
+    let m_body = strpart(a:model, empty(m_sign) ? 0 : 1)
+    let m_part_d = matchstr(m_body, '^\d\+')
+    let m_part_f = matchstr(m_body, '\.\d\+')
+
+    if empty(m_part_d)
+        return ''
+    endif
+
+    let m_zero_pad = match(m_part_d, '^0\+') > -1
+    let m_width_d  = strlen(m_part_d)
+
+    let sign = (m_sign == '+' && a:number > 0) ? '+' :
+                \ (a:number < 0 ? '-' : '')
+
+    if !empty(m_part_f)
+        let m_prec = strlen(m_part_f) - 1
+        let m_prec = m_prec ? m_prec : 1
+        let num = abs(a:number)
+        return m_zero_pad ?
+            \ printf('%s%0*.*f', sign, m_width_d, m_prec, num) :
+            \ printf('%s%.*f', sign, m_prec, num)
+    else
+        let num = abs(float2nr(a:number))
+        return m_zero_pad ?
+            \ printf('%s%0*d', sign, m_width_d, num) :
+            \ printf('%s%d', sign, num)
+    endif
 endfunction
 
 " vim: ft=vim fenc=utf-8 ff=unix foldmethod=marker:

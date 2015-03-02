@@ -269,6 +269,10 @@ Move cursor to the first '0', and type `)` or `10)`
 ==============================================================================
 CHANGELOG					    *textobj-numeral-changelog*
 
+0.1.1	2014-3-2
+	- Bugfix
+        - Add textobj#numeral#imitate_format() utility fnction.
+
 0.1.0	2014-2-26
 	- Some bugfixes
 	- Add the strict mode
