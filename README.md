@@ -49,15 +49,17 @@ Bundle 'tkhren/vim-textobj-numeral'
 
 See `:help textobj-numeral`
 
+#### Change matching patterns
 
 The pattern for the each text objects is defined by some variables.
 You can modify the regular expressions to suit your specific needs.
 For example, changing `id` behavior, please add the following code.
 
 ```
-let g:textobj_numeral_digit_i_pattern = '[1-9]\d*'
+let g:textobj_numeral_digit_i_pattern = '[1-9]\d*'          " Default:'\d\+'
 ```
 
+#### Disable default key mappings
 
 If you need to change or disable the default keymappings,
 please define `g:textobj_numeral_no_default_key_mappings`, and redefine `vmap` and `omap`.
@@ -78,8 +80,54 @@ omap id	<Plug>(textobj-numeral-digit-i)
 
 ```
 
+## Application
+
+
+![renban_demo](https://raw.githubusercontent.com/tkhren/vim-textobj-numeral/images/renban_demo.gif)
+
+
+There is a useful application to input sequential numbers.
+Write the following code in your .vimrc
+
+```
+set nrformats-=octal
+
+function! Increment(motion, step)
+    let inc_key = a:step > 0 ? "\<C-a>" : "\<C-x>"
+    let @z = '"zyad' . a:motion . 'vad"zp'. abs(a:step) . inc_key
+    return '@z'
+endfunction
+
+nmap <expr> + Increment('j', 1)
+nmap <expr> - Increment('j', -1)
+nmap <expr> ) Increment('gNd', 1)
+nmap <expr> ( Increment('gNd', -1)
+
+```
+
+Move cursor to the top of '00', and type `++++++++++` or `10+`
+
+```
+	aaa00ccc	->	aaa00ccc
+	aaa00ccc	->	aaa01ccc
+	aaa00ccc	->	aaa02ccc
+	aaa00ccc	->	aaa03ccc
+	aaa00ccc	->	aaa04ccc
+	aaa00ccc	->	aaa05ccc
+	aaa00ccc	->	aaa06ccc
+	aaa00ccc	->	aaa07ccc
+	aaa00ccc	->	aaa08ccc
+	aaa00ccc	->	aaa09ccc
+	aaa00ccc	->	aaa10ccc
+```
+
+Move cursor to the first '0', and type `)` or `10)`
+
+```
+	[0,0,0,0,0,0,0,0,0,0,0]   ->   [0,1,2,3,4,5,6,7,8,9,10]
+```
+
 
 ## Similar works
 
 - [haya14busa/vim-textobj-number](https://github.com/haya14busa/vim-textobj-number)
-
