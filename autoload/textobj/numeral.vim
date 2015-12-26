@@ -1,7 +1,5 @@
 " ===============================================================
 " textobj-numeral - Text objects for numbers
-" Version: 0.0.1
-" Author: tkhren
 "
 " License: So-called MIT/X license {{{
 " Permission is hereby granted, free of charge, to any person obtaining
